@@ -1,0 +1,40 @@
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := cocos2dcpp_shared
+
+LOCAL_MODULE_FILENAME := libcocos2dcpp
+
+LOCAL_SRC_FILES := hellocpp/main.cpp \
+                   ../../Classes/AppDelegate.cpp \
+                   ../../Classes/Config.cpp \
+                   ../../Classes/Status.cpp \
+                   ../../Classes/GameScene.cpp \
+                   ../../Classes/GameOverScene.cpp \
+                   ../../Classes/BackGroundLayer.cpp \
+                   ../../Classes/MainMenuLayer.cpp \
+                   ../../Classes/ResumeAndSaveMenuLayer.cpp \
+                   ../../Classes/Star.cpp \
+                   ../../Classes/StarPuzzle.cpp
+
+LOCAL_SRC_FILES += ../../Solver/PopStarSolver.cpp
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes \
+                    $(LOCAL_PATH)/../../Solver \
+                    $(LOCAL_PATH)/hellocpp
+
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocosdenshion_static
+LOCAL_WHOLE_STATIC_LIBRARIES += box2d_static
+LOCAL_WHOLE_STATIC_LIBRARIES += chipmunk_static
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
+
+include $(BUILD_SHARED_LIBRARY)
+
+$(call import-module,cocos2dx)
+$(call import-module,cocos2dx/platform/third_party/android/prebuilt/libcurl)
+$(call import-module,CocosDenshion/android)
+$(call import-module,extensions)
+$(call import-module,external/Box2D)
+$(call import-module,external/chipmunk)
