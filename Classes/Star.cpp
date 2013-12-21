@@ -14,16 +14,37 @@ Star::Star(StarType type, float scale)
     , m_attachedNode(0)
     , m_selected(false)
 {
-	CCString normal, selected;
+	/*CCString normal, selected;
 	normal.initWithFormat("star%da.png", type);
-	selected.initWithFormat("star%db.png", type);
-	m_sprite = CCSprite::createWithSpriteFrameName(normal.getCString());
+	selected.initWithFormat("star%db.png", type);*/
+	const char *normal, *selected;
+	if (type == Yellow) {
+		normal = "avata_duck_close.png";
+		selected = "avata_duck_open.png";
+	}
+	else if (type == Green) {
+		normal = "avatar_rabbit_close.png";
+		selected = "avatar_rabbit_open.png";
+	}
+	else if (type == Red) {
+		normal = "avata_fox_close.png";
+		selected = "avata_fox_open.png";
+	}
+	else if (type == Blue) {
+		normal = "avata_mouse_close.png";
+		selected = "avata_mouse_open.png";
+	}
+	else if (type == Puple) {
+		normal = "avatar_tiger_close.png";
+		selected = "avatar_tiger_open.png";
+	}
+	m_sprite = CCSprite::createWithSpriteFrameName(normal);
 	m_sprite->retain();
 	m_sprite->setAnchorPoint(CCPoint(0, 0));
 	m_normalFrame = m_sprite->displayFrame();
 	m_normalFrame->retain();
 	CCSpriteFrameCache* cacher = CCSpriteFrameCache::sharedSpriteFrameCache();
-	m_selectedFrame = cacher->spriteFrameByName(selected.getCString());
+	m_selectedFrame = cacher->spriteFrameByName(selected);
 	m_selectedFrame->retain();
 }
 
@@ -108,7 +129,6 @@ bool Star::detach(CCNode* node) {
 
 	return false;
 }
-
 
 CCSprite* createStarSprite(Star::StarType type) {
 	std::string resource = "star";

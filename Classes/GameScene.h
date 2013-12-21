@@ -24,7 +24,7 @@ public:
 
 	void showMainMenu();
 	void showResumeMenu();
-	void startNewPuzzle();
+	void startNewPuzzle(Config::GameMode mode);
 	void resumePuzzle();
 	void startLearning();
 	void returnToPuzzle();
@@ -129,21 +129,15 @@ private:
 	bool m_stageCleared;
 
 	cocos2d::CCLabelBMFont*    m_levelLabel;
+	cocos2d::CCLabelBMFont*    m_levelNumLabel;
 	cocos2d::CCLabelBMFont*    m_targetLabel;
 	cocos2d::CCLabelBMFont*    m_targetScoreLabel;
-	cocos2d::CCSprite*         m_bestSprite;
-	cocos2d::CCSprite*         m_bestbgSprite;
+	cocos2d::CCLabelBMFont*    m_bestLabel;
 	cocos2d::CCLabelBMFont*    m_bestScoreLabel;
-	cocos2d::CCSprite*         m_pauseSprite;
-	cocos2d::CCSprite*         m_stageSprite;
-	cocos2d::CCSprite*         m_stagebgSprite;
 	cocos2d::CCLabelBMFont*    m_stageLabel;
-	cocos2d::CCSprite*         m_targetSprite;
-	cocos2d::CCSprite*         m_targetbgSprite;
-	cocos2d::CCLabelBMFont*    m_targetScoreTopLabel;
-	cocos2d::CCSprite*         m_scoreSprite;
-	cocos2d::CCSprite*         m_scorebgSprite;
+	cocos2d::CCLabelBMFont*    m_stageNumLabel;
 	cocos2d::CCLabelBMFont*    m_scoreLabel;
+	cocos2d::CCLabelBMFont*    m_scoreNumLabel;
 	cocos2d::CCMenuItemSprite* m_resumeSprite;
 	cocos2d::CCMenuItemSprite* m_saveSprite;
 	cocos2d::CCLabelBMFont*    m_scoreHintLabel;
@@ -151,16 +145,18 @@ private:
 
 	cocos2d::CCLabelBMFont*    m_newStageInfoLabel;
 	cocos2d::CCLabelBMFont*    m_newStageTargetInfoLabel;
-	cocos2d::CCLabelBMFont*    m_newStageTargetScoreInfoLabel;
 
-	cocos2d::CCSprite*         m_goodSprite;
-	cocos2d::CCSprite*         m_coolSprite;
-	cocos2d::CCSprite*         m_excellentSprite;
-	cocos2d::CCSprite*         m_fantasticSprite;
+	cocos2d::CCLabelBMFont*    m_goodSprite;
+	cocos2d::CCLabelBMFont*    m_coolSprite;
+	cocos2d::CCLabelBMFont*    m_excellentSprite;
+	cocos2d::CCLabelBMFont*    m_fantasticSprite;
 	cocos2d::CCSprite*         m_clearSprite;
 	cocos2d::CCSprite*         m_winSprite;
 	cocos2d::CCSprite*         m_gameoverSprite;
 
+	cocos2d::CCSprite* m_sound;
+	cocos2d::CCSpriteFrame* m_muteFrame;
+	cocos2d::CCSpriteFrame* m_soundFrame;
 	cocos2d::CCPoint  m_resumeSpritePosition;
 	cocos2d::CCPoint  m_saveSpritePosition;
 	cocos2d::CCPoint  m_clearSpriteInitPosition;

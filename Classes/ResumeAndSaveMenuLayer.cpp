@@ -28,8 +28,8 @@ bool ResumeAndSaveMenuLayer::init() {
 		CCSpriteFrameCache* cacher = CCSpriteFrameCache::sharedSpriteFrameCache();
 
 		// resume 259*58
-		CCSprite* normal = CCSprite::createWithSpriteFrameName("resume.png");
-		CCSprite* selected = CCSprite::createWithSpriteFrameName("resume.png");
+		CCSprite* normal = CCSprite::createWithSpriteFrameName("continue.png");
+		CCSprite* selected = CCSprite::createWithSpriteFrameName("continue.png");
 		selected->setScale(1.1);
 		m_resumeSprite = CCMenuItemSprite::create(normal, selected,
 				this, menu_selector(ResumeAndSaveMenuLayer::resumeCallback));
@@ -37,8 +37,8 @@ bool ResumeAndSaveMenuLayer::init() {
 		m_resumeSprite->setPosition(m_resumePosition);
 		m_resumeSprite->setAnchorPoint(CCPoint(0.5f, 0.5f));
 		// save 259*58
-		normal = CCSprite::createWithSpriteFrameName("save.png");
-		selected = CCSprite::createWithSpriteFrameName("save.png");
+		normal = CCSprite::createWithSpriteFrameName("pause.png");
+		selected = CCSprite::createWithSpriteFrameName("pause.png");
 		selected->setScale(1.1);
 		m_saveAndExitSprite = CCMenuItemSprite::create(normal, selected,
 				this, menu_selector(ResumeAndSaveMenuLayer::saveAndExitCallback));
@@ -69,12 +69,12 @@ void ResumeAndSaveMenuLayer::resumeCallback(CCObject* pSender) {
 	float duration = 0.2f;
 	disappear(duration);
 	this->scheduleOnce(schedule_selector(ResumeAndSaveMenuLayer::resumePuzzle), duration);
-	GameScene::instance()->playEffect("click.mp3");
+	GameScene::instance()->playEffect("clickbutton.ogg");
 }
 
 void ResumeAndSaveMenuLayer::saveAndExitCallback(CCObject* pSender) {
 	GameScene::instance()->saveAndExit();
-	GameScene::instance()->playEffect("click.mp3");
+	GameScene::instance()->playEffect("clickbutton.ogg");
 }
 
 void ResumeAndSaveMenuLayer::animate() {

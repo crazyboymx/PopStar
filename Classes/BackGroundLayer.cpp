@@ -23,16 +23,12 @@ bool BackGroundLayer::init() {
 
 		CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 		CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-		CCSprite* top = CCSprite::createWithSpriteFrameName("top.png");
-		top->setPosition(CCPoint(origin.x + 0, origin.y + visibleSize.height - 100));
-		top->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(top);
-		CCSprite* bottom = CCSprite::createWithSpriteFrameName("bottom.png");
-		bottom->setPosition(CCPoint(origin.x + 0, origin.y + 0));
-		bottom->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(bottom);
+		CCSprite* bg = CCSprite::createWithSpriteFrameName("bg.png");
+		bg->setPosition(CCPoint(origin.x + 0, origin.y ));
+		bg->setAnchorPoint(CCPoint(0, 0));
+		this->addChild(bg);
 
-		m_fire1 = createFireParticle();
+		/*m_fire1 = createFireParticle();
 		m_fire2 = createFireParticle();
 		m_fire3 = createFireParticle();
 		m_fire4 = createFireParticle();
@@ -43,7 +39,7 @@ bool BackGroundLayer::init() {
 		this->addChild(m_fire3);
 		this->addChild(m_fire4);
 		this->addChild(m_fire5);
-		this->addChild(m_fire6);
+		this->addChild(m_fire6);*/
 
 		bRet = true;
 	} while (0);
@@ -52,7 +48,7 @@ bool BackGroundLayer::init() {
 }
 
 void BackGroundLayer::fire(bool loop) {
-	m_fire1->setPosition(randomPosition());
+	/*m_fire1->setPosition(randomPosition());
 	m_fire2->setPosition(randomPosition());
 	m_fire3->setPosition(randomPosition());
 	m_fire4->setPosition(randomPosition());
@@ -76,37 +72,37 @@ void BackGroundLayer::fire(bool loop) {
 		delayTime += (rand() % 10)/10.0f+2;
 		this->delayedFire(delayTime, true);
 	}
-	GameScene::instance()->playEffect("fire.mp3");
+	GameScene::instance()->playEffect("fire.mp3");*/
 }
 
 void BackGroundLayer::delayedFire(float delay, bool loop) {
-	CCFiniteTimeAction *delayAction, *next, *seq;
+	/*CCFiniteTimeAction *delayAction, *next, *seq;
 	delayAction = CCDelayTime::create(delay);
 	next = CCCallFuncND::create(this,
 			callfuncND_selector(BackGroundLayer::fire), (void*)loop);
 	seq = CCSequence::create(delayAction, next, NULL);
-	this->runAction(seq);
+	this->runAction(seq);*/
 }
 
 void BackGroundLayer::stopFire() {
-	this->stopAllActions();
+	//this->stopAllActions();
 }
 
 void BackGroundLayer::showFire(CCParticleSystem* fire, float delay) {
-	CCFiniteTimeAction *delayAction, *action, *soundAction, *seq;
+	/*CCFiniteTimeAction *delayAction, *action, *soundAction, *seq;
 	delayAction = CCDelayTime::create(delay);
 	action = CCCallFuncND::create(this,
 			callfuncND_selector(BackGroundLayer::resetFireSelector), (void*)fire);
 	seq = CCSequence::create(delayAction, action, NULL);
-	this->runAction(seq);
+	this->runAction(seq);*/
 }
 
 void BackGroundLayer::resetFireSelector(CCNode* sender, CCParticleSystem* fire) {
-	fire->resetSystem();
+	//fire->resetSystem();
 }
 
 CCParticleSystem* BackGroundLayer::createFireParticle() {
-	CCParticleExplosion *emitter = CCParticleExplosion::createWithTotalParticles(200);
+	/*CCParticleExplosion *emitter = CCParticleExplosion::createWithTotalParticles(200);
 	emitter->setTexture(CCTextureCache::sharedTextureCache()->textureForKey("fire.png"));
 	emitter->setGravity(CCPoint(0,-100));
 	emitter->setLife(2.0f);
@@ -114,7 +110,8 @@ CCParticleSystem* BackGroundLayer::createFireParticle() {
 	//emitter->setRadialAccel(50);
 	//emitter->setRadialAccelVar(0);
 	emitter->stopSystem();
-	return emitter;
+	return emitter;*/
+	return NULL;
 }
 
 CCPoint BackGroundLayer::randomPosition() {

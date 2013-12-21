@@ -53,12 +53,12 @@ void GameScene::showResumeMenu() {
 	m_gameLayer->disableInput();
 }
 
-void GameScene::startNewPuzzle() {
+void GameScene::startNewPuzzle(Config::GameMode mode) {
 	Config::instance()->clearSavedPuzzle();
 	m_backgroundLayer->stopFire();
 	m_scene->removeChild(m_mainMenuLayer);
 	m_scene->addChild(m_gameLayer);
-	m_gameLayer->setGameMode(Config::Normal);
+	m_gameLayer->setGameMode(mode);
 	m_gameLayer->disableInput();
 	m_gameLayer->resetStatus();
 	m_gameLayer->nextStage();
@@ -151,8 +151,8 @@ bool GameLayer::init() {
 		CCLayer::init();
         CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
         CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-        CCLog("visibleSize %0.2f, %0.2f, origin %0.2f %0.2f", visibleSize.width,
-        		visibleSize.height, origin.x, origin.y);
+        /*CCLog("visibleSize %0.2f, %0.2f, origin %0.2f %0.2f", visibleSize.width,
+        		visibleSize.height, origin.x, origin.y);*/
         int adHeight = GameScene::topAdHeight();
         m_topCenter = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height);
         m_rightCenter = CCPoint(origin.x + visibleSize.width, origin.y + visibleSize.height/2);
@@ -161,86 +161,67 @@ bool GameLayer::init() {
         m_status.mute = Config::instance()->mute();
         m_status.highScore = Config::instance()->highScore();
 
-        // best 165*28
-		m_bestSprite = CCSprite::createWithSpriteFrameName("best.png");
-		m_bestSprite->setPosition(CCPoint(origin.x + 0, origin.y + visibleSize.height - adHeight - 28));
-		m_bestSprite->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(m_bestSprite);
-		// bestbg 258*28
-		m_bestbgSprite = CCSprite::createWithSpriteFrameName("bestbg.png");
-		m_bestbgSprite->setPosition(CCPoint(origin.x + 165, origin.y + visibleSize.height - adHeight - 28));
-		m_bestbgSprite->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(m_bestbgSprite);
+        // best
+        m_bestLabel = CCLabelBMFont::create("High Score", "zh.fnt");
+        m_bestLabel->setPosition(CCPoint(origin.x+340, origin.y + 1000));
+        m_bestLabel->setAnchorPoint(CCPoint(0.5, 0));
+		this->addChild(m_bestLabel);
 		// bestScoreLable
 		m_bestScoreLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("%d", m_status.highScore)->getCString(),"highscore.fnt");
-		m_bestScoreLabel->setPosition(CCPoint(origin.x + 294, origin.y + visibleSize.height - adHeight - 28));
+				CCString::createWithFormat("%d", m_status.highScore)->getCString(),"zh.fnt");
+		m_bestScoreLabel->setPosition(CCPoint(origin.x+340, origin.y + 920));
 		m_bestScoreLabel->setAnchorPoint(CCPoint(0.5, 0));
 		this->addChild(m_bestScoreLabel);
-		// pause 36*28
-		/*m_pauseSprite = CCSprite::createWithSpriteFrameName("pause.png");
-		m_pauseSprite->setPosition(CCPoint(origin.x + 433, origin.y + visibleSize.height - adHeight - 28));
-		m_pauseSprite->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(m_pauseSprite);*/
 		// stage 90*28
-		m_stageSprite = CCSprite::createWithSpriteFrameName("stage.png");
-		m_stageSprite->setPosition(CCPoint(origin.x + 0, origin.y + visibleSize.height - adHeight - 56));
-		m_stageSprite->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(m_stageSprite);
-		// stagebg 50*28
-		m_stagebgSprite = CCSprite::createWithSpriteFrameName("stagebg.png");
-		m_stagebgSprite->setPosition(CCPoint(origin.x + 90, origin.y + visibleSize.height - adHeight - 56));
-		m_stagebgSprite->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(m_stagebgSprite);
-		// stageLable
-		m_stageLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("%d", m_status.stage)->getCString(),"highscore.fnt");
-		m_stageLabel->setPosition(CCPoint(origin.x + 115, origin.y + visibleSize.height - adHeight - 56));
-		m_stageLabel->setAnchorPoint(CCPoint(0.5, 0));
+		m_stageLabel = CCLabelBMFont::create("Stage", "zh.fnt");
+		m_stageLabel->setPosition(CCPoint(origin.x + 0, origin.y + 870));
+		m_stageLabel->setAnchorPoint(CCPoint(0, 0));
+		m_stageLabel->setScale(0.7);
 		this->addChild(m_stageLabel);
+		// stageLable
+		m_stageNumLabel = CCLabelBMFont::create(
+				CCString::createWithFormat("%d", m_status.stage)->getCString(),"zh.fnt");
+		m_stageNumLabel->setPosition(CCPoint(origin.x + 110, origin.y + 870));
+		m_stageNumLabel->setAnchorPoint(CCPoint(0, 0));
+		m_stageNumLabel->setScale(0.7);
+		this->addChild(m_stageNumLabel);
 		// target 110*28
-		m_targetSprite = CCSprite::createWithSpriteFrameName("target.png");
-		m_targetSprite->setPosition(CCPoint(origin.x + 140, origin.y + visibleSize.height - adHeight - 56));
-		m_targetSprite->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(m_targetSprite);
-		// targetbg 234*28
-		m_targetbgSprite = CCSprite::createWithSpriteFrameName("targetbg.png");
-		m_targetbgSprite->setPosition(CCPoint(origin.x + 250, origin.y + visibleSize.height - adHeight - 56));
-		m_targetbgSprite->setAnchorPoint(CCPoint(0, 0));
-		this->addChild(m_targetbgSprite);
+		m_targetLabel = CCLabelBMFont::create("Target", "zh.fnt");
+		m_targetLabel->setPosition(CCPoint(origin.x + 0, origin.y + 820));
+		m_targetLabel->setAnchorPoint(CCPoint(0, 0));
+		m_targetLabel->setScale(0.7);
+		this->addChild(m_targetLabel);
 		// targetScoreTopLable
-		m_targetScoreTopLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("%d", 0)->getCString(),"highscore.fnt");
-		m_targetScoreTopLabel->setPosition(CCPoint(origin.x + 367, origin.y + visibleSize.height - adHeight - 56));
-		m_targetScoreTopLabel->setAnchorPoint(CCPoint(0.5, 0));
-		this->addChild(m_targetScoreTopLabel);
+		m_targetScoreLabel = CCLabelBMFont::create(
+				CCString::createWithFormat("%d", 0)->getCString(),"zh.fnt");
+		m_targetScoreLabel->setPosition(CCPoint(origin.x + 110, origin.y + 820));
+		m_targetScoreLabel->setAnchorPoint(CCPoint(0, 0));
+		m_targetScoreLabel->setScale(0.7);
+		this->addChild(m_targetScoreLabel);
 		// score 95*28
-		m_scoreSprite = CCSprite::createWithSpriteFrameName("score.png");
-		m_scoreSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height - adHeight - 112));
-		m_scoreSprite->setAnchorPoint(CCPoint(0.5, 0));
-		this->addChild(m_scoreSprite);
-		// scorebg 235*28
-		m_scorebgSprite = CCSprite::createWithSpriteFrameName("scorebg.png");
-		m_scorebgSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height - adHeight - 140));
-		m_scorebgSprite->setAnchorPoint(CCPoint(0.5, 0));
-		this->addChild(m_scorebgSprite);
-		// scoreLable x*28
-		m_scoreLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("%d", m_status.score)->getCString(),"highscore.fnt");
-		m_scoreLabel->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height - adHeight - 140));
-		m_scoreLabel->setAnchorPoint(CCPoint(0.5, 0));
+		m_scoreLabel = CCLabelBMFont::create("Score", "zh.fnt");
+		m_scoreLabel->setPosition(CCPoint(origin.x, origin.y + 770));
+		m_scoreLabel->setAnchorPoint(CCPoint(0, 0));
+		m_scoreLabel->setScale(0.7);
 		this->addChild(m_scoreLabel);
+		// scoreLable x*28
+		m_scoreNumLabel = CCLabelBMFont::create(
+				CCString::createWithFormat("%d", m_status.score)->getCString(),"zh.fnt");
+		m_scoreNumLabel->setPosition(CCPoint(origin.x + 110, origin.y + 770));
+		m_scoreNumLabel->setAnchorPoint(CCPoint(0, 0));
+		m_scoreNumLabel->setScale(0.7);
+		this->addChild(m_scoreNumLabel);
 
 		// scoreHintLable x*28
 		m_scoreHintLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("%d blocks %d points", 0, 0)->getCString(),"highscore.fnt");
-		m_scoreHintLabel->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height - adHeight - 168));
+				CCString::createWithFormat("Gain %d score", 0)->getCString(),"zh.fnt");
+		m_scoreHintLabel->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + 750));
 		m_scoreHintLabel->setAnchorPoint(CCPoint(0.5, 0));
 		m_scoreHintLabel->setVisible(false);
 		this->addChild(m_scoreHintLabel);
 		// bonusHintLabel x*28
 		m_bonusHintLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("%d blocks %d points", 0, 0)->getCString(),"highscore.fnt");
+				CCString::createWithFormat("Bonus %d", 0)->getCString(),"zh.fnt");
 		m_bonusHintLabel->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_bonusHintLabel->setAnchorPoint(CCPoint(0.5, 0));
 		m_bonusHintLabel->setVisible(false);
@@ -248,81 +229,85 @@ bool GameLayer::init() {
 
 		// new stage info labels
 		m_newStageInfoLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("level %d", 0)->getCString(),"highscore.fnt");
-		m_newStageInfoLabelInitPosition = CCPoint(origin.x + visibleSize.width+80, origin.y + visibleSize.height/2+28);
-		m_newStageInfoLabelDispPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2+28);
+				CCString::createWithFormat("Stage %d", 0)->getCString(),"zh.fnt");
+		m_newStageInfoLabelInitPosition = CCPoint(origin.x + visibleSize.width+120, origin.y + 680);
+		m_newStageInfoLabelDispPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + 680);
 		m_newStageInfoLabel->setPosition(m_newStageInfoLabelInitPosition);
 		m_newStageInfoLabel->setAnchorPoint(CCPoint(0.5, 0.5));
 		m_newStageInfoLabel->setVisible(false);
 		this->addChild(m_newStageInfoLabel, 999);
 		m_newStageTargetInfoLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("target score is")->getCString(),"highscore.fnt");
-		m_newStageTargetInfoLabelInitPosition = CCPoint(origin.x + visibleSize.width+80, origin.y + visibleSize.height/2);
-		m_newStageTargetInfoLabelDispPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
+				CCString::createWithFormat("Target %d", m_status.target)->getCString(),"zh.fnt");
+		m_newStageTargetInfoLabelInitPosition = CCPoint(origin.x + visibleSize.width+120, origin.y + 600);
+		m_newStageTargetInfoLabelDispPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + 600);
 		m_newStageTargetInfoLabel->setPosition(m_newStageTargetInfoLabelInitPosition);
 		m_newStageTargetInfoLabel->setAnchorPoint(CCPoint(0.5, 0.5));
 		m_newStageTargetInfoLabel->setVisible(false);
 		this->addChild(m_newStageTargetInfoLabel, 999);
-		m_newStageTargetScoreInfoLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("%d", m_status.target)->getCString(),"highscore.fnt");
-		m_newStageTargetScoreInfoLabelInitPosition = CCPoint(origin.x + visibleSize.width+80, origin.y + visibleSize.height/2-28);
-		m_newStageTargetScoreInfoLabelDispPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2-28);
-		m_newStageTargetScoreInfoLabel->setPosition(m_newStageTargetScoreInfoLabelInitPosition);
-		m_newStageTargetScoreInfoLabel->setAnchorPoint(CCPoint(0.5, 0.5));
-		m_newStageTargetScoreInfoLabel->setVisible(false);
-		//m_newStageTargetScoreInfoLabel->setScale(1.2);
-		this->addChild(m_newStageTargetScoreInfoLabel, 999);
 
 		// goodSprite 186*120
-		m_goodSprite = CCSprite::createWithSpriteFrameName("good.png");
-		m_goodSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + PUZZLE_SIZE * STAR_HEIGHT + 60));
+		m_goodSprite = CCLabelBMFont::create("Nice！", "zh.fnt");
+		m_goodSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_goodSprite->setAnchorPoint(CCPoint(0.5, 0.5));
-		this->addChild(m_goodSprite);
+		this->addChild(m_goodSprite, 999);
 		m_goodSprite->setVisible(false);
 		// coolSprite 186*120
-		m_coolSprite = CCSprite::createWithSpriteFrameName("cool.png");
-		m_coolSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + PUZZLE_SIZE * STAR_HEIGHT + 60));
+		m_coolSprite = CCLabelBMFont::create("Good！", "zh.fnt");
+		m_coolSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_coolSprite->setAnchorPoint(CCPoint(0.5, 0.5));
-		this->addChild(m_coolSprite);
+		this->addChild(m_coolSprite, 999);
 		m_coolSprite->setVisible(false);
 		// excellentSprite 310*120
-		m_excellentSprite = CCSprite::createWithSpriteFrameName("excellent.png");
-		m_excellentSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + PUZZLE_SIZE * STAR_HEIGHT + 60));
+		m_excellentSprite = CCLabelBMFont::create("Cool！", "zh.fnt");
+		m_excellentSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_excellentSprite->setAnchorPoint(CCPoint(0.5, 0.5));
-		this->addChild(m_excellentSprite);
+		this->addChild(m_excellentSprite, 999);
 		m_excellentSprite->setVisible(false);
 		// fantasticSprite 294, 104
-		m_fantasticSprite = CCSprite::createWithSpriteFrameName("fantastic.png");
-		m_fantasticSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + PUZZLE_SIZE * STAR_HEIGHT + 52));
+		m_fantasticSprite = CCLabelBMFont::create("Super！", "zh.fnt");
+		m_fantasticSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_fantasticSprite->setAnchorPoint(CCPoint(0.5, 0.5));
-		this->addChild(m_fantasticSprite);
+		this->addChild(m_fantasticSprite, 999);
 		m_fantasticSprite->setVisible(false);
 
-		// clearSprite 200*143
+		// clearSprite 256*256
 		m_clearSprite = CCSprite::createWithSpriteFrameName("clear.png");
 		m_clearSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_clearSprite->setAnchorPoint(CCPoint(0.5, 0.5));
+		m_clearSprite->setRotation(20);
 		this->addChild(m_clearSprite, 999);
 		m_clearSprite->setVisible(false);
 		m_clearSpriteInitPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
-		m_clearSpriteDisplayScale = 0.25f;
-		m_clearSpriteDisplayPosition = CCPoint(
-				origin.x + 200*0.5*m_clearSpriteDisplayScale+10,
-				origin.y + visibleSize.height - adHeight - 56 - 143*0.5*m_clearSpriteDisplayScale);
+		m_clearSpriteDisplayScale = 0.5f;
+		m_clearSpriteDisplayPosition = CCPoint(origin.x + 150, origin.y + 870);
 
 		// winSprite 200*78
-		m_winFailSpriteInitPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height+40);
+		m_winFailSpriteInitPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height+100);
 		m_winFailSpriteDisplayPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
 		m_winSprite = CCSprite::createWithSpriteFrameName("win.png");
 		m_winSprite->setPosition(m_winFailSpriteInitPosition);
 		m_winSprite->setAnchorPoint(CCPoint(0.5, 0.5));
+		m_winSprite->setScale(2);
 		this->addChild(m_winSprite, 999);
 		// gameoverSprite 335*75
 		m_gameoverSprite = CCSprite::createWithSpriteFrameName("gameover.png");
 		m_gameoverSprite->setPosition(m_winFailSpriteInitPosition);
 		m_gameoverSprite->setAnchorPoint(CCPoint(0.5, 0.5));
+		m_gameoverSprite->setScale(2);
 		this->addChild(m_gameoverSprite, 999);
 
+		// sound 128*128
+		m_sound = CCSprite::createWithSpriteFrameName("sound.png");
+		m_sound->setPosition(CCPoint(origin.x + visibleSize.width-60, origin.y + visibleSize.height - adHeight - 80));
+		m_sound->setAnchorPoint(CCPoint(0.5, 0.5));
+		m_sound->setScale(0.7);
+		m_soundFrame = m_sound->displayFrame();
+		m_soundFrame->retain();
+		m_muteFrame = cacher->spriteFrameByName("mute.png");
+		m_muteFrame->retain();
+		if (Config::instance()->mute())
+			m_sound->setDisplayFrame(m_muteFrame);
+		this->addChild(m_sound);
 		this->setTouchEnabled(true);
 		bRet = true;
 	} while (0);
@@ -361,7 +346,12 @@ void GameLayer::createPuzzle(int row, int col) {
 	m_puzzle->setLeft(GameScene::instance()->visibleOrigin().x);
 	m_puzzle->setBottom(GameScene::instance()->visibleOrigin().y);
 	m_puzzle->setRight(m_rightCenter.x);
-	m_puzzle->initPuzzle();
+	if (m_mode == Config::Challenge)
+		m_puzzle->initPuzzle(StarPuzzle::EASY);
+	else if (m_mode == Config::Learning)
+		m_puzzle->initPuzzle(StarPuzzle::EASY);
+	else if (m_mode == Config::Normal)
+		m_puzzle->initPuzzle(StarPuzzle::NORMAL);
 	m_puzzle->attach(this);
 }
 
@@ -397,7 +387,11 @@ void GameLayer::updateStatus(int cnt, int score, const CCPoint& location) {
 
 void GameLayer::addScore(CCNode* sender, int score) {
 	m_status.score += score;
-	m_scoreLabel->setCString(
+	if (!m_stageCleared && isStageClear(m_status.score)) {
+		clearPuzzleAnimation();
+		m_stageCleared = true;
+	}
+	m_scoreNumLabel->setCString(
 			CCString::createWithFormat("%d", m_status.score)->getCString());
 }
 
@@ -411,7 +405,7 @@ void GameLayer::updateHighScore(int score) {
 
 void GameLayer::updateBonusHintLabel(CCNode* sender, int score) {
 	m_bonusHintLabel->setCString(
-			CCString::createWithFormat("bonus %d", score)->getCString());
+			CCString::createWithFormat("Bonus %d", score)->getCString());
 }
 
 bool GameLayer::isStageClear(int score) {
@@ -431,9 +425,10 @@ void GameLayer::newStage() {
 		m_status.score = 0;
 		m_status.stage = 1;
 	}
+	//m_status.target = target(m_status.stage);
 	resetSpritesAndStatus();
-	m_stageLabel->setCString(CCString::createWithFormat("%d", m_status.stage)->getCString());
-	m_targetScoreTopLabel->setCString(CCString::createWithFormat("%d", m_status.target)->getCString());
+	m_stageNumLabel->setCString(CCString::createWithFormat("%d", m_status.stage)->getCString());
+	m_targetScoreLabel->setCString(CCString::createWithFormat("%d", m_status.target)->getCString());
 	scheduleAnimation(NewStageInfo);
 }
 
@@ -469,6 +464,15 @@ void GameLayer::ccTouchesEnded(CCSet* touches, CCEvent* event) {
 	CCTouch* touch = (CCTouch*)( touches->anyObject() );
 	CCPoint location = touch->getLocation();
 
+	if (m_sound->boundingBox().containsPoint(location)) {
+		bool mute = !Config::instance()->mute();
+		Config::instance()->setMute(mute);
+		if (mute)
+			m_sound->setDisplayFrame(m_muteFrame);
+		else
+			m_sound->setDisplayFrame(m_soundFrame);
+		return;
+	}
 	HitResult result;
 	if (m_mode == Config::Learning)
 		result = m_puzzle->hitTestAuto();
@@ -484,7 +488,7 @@ void GameLayer::keyBackClicked() {
 void GameLayer::handleHitResult(HitResult& hr) {
 	hideScoreHintLabel();
 	if (hr.type == HitResult::HIT_STAR) {
-		GameScene::instance()->playEffect("select.mp3");
+		GameScene::instance()->playEffect("selectstar.ogg");
 		scoreHintAnimation(hr.data, m_puzzle->score(hr.data));
 	}
 	else if (hr.type == HitResult::HIT_POPSTAR) {
@@ -492,10 +496,6 @@ void GameLayer::handleHitResult(HitResult& hr) {
 		m_puzzle->applyChanges();
 		goodGameAnimation(hr.data);
 		updateStatus(hr.data, m_puzzle->score(hr.data), hr.location);
-		if (!m_stageCleared && isStageClear(m_status.score)) {
-			clearPuzzleAnimation();
-			m_stageCleared = true;
-		}
 		checkPuzzleSolved();
 	}
 }
@@ -538,26 +538,22 @@ void GameLayer::resetSpritesAndStatus() {
 	m_winSprite->setPosition(m_winFailSpriteInitPosition);
 	m_gameoverSprite->setPosition(m_winFailSpriteInitPosition);
 
-	m_bestSprite->setVisible(false);
-	m_bestbgSprite->setVisible(false);
+	m_bestLabel->setVisible(false);
 	m_bestScoreLabel->setCString(
 				CCString::createWithFormat("%d", m_status.highScore)->getCString());
 	m_bestScoreLabel->setVisible(false);
-	m_stageSprite->setVisible(false);
-	m_stagebgSprite->setVisible(false);
-	m_stageLabel->setCString(
-				CCString::createWithFormat("%d", m_status.stage)->getCString());
 	m_stageLabel->setVisible(false);
-	m_targetSprite->setVisible(false);
-	m_targetbgSprite->setVisible(false);
-	m_targetScoreTopLabel->setCString(
+	m_stageNumLabel->setCString(
+				CCString::createWithFormat("%d", m_status.stage)->getCString());
+	m_stageNumLabel->setVisible(false);
+	m_targetLabel->setVisible(false);
+	m_targetScoreLabel->setCString(
 				CCString::createWithFormat("%d", m_status.target)->getCString());
-	m_targetScoreTopLabel->setVisible(false);
-	m_scoreSprite->setVisible(false);
-	m_scorebgSprite->setVisible(false);
-	m_scoreLabel->setCString(
-				CCString::createWithFormat("%d", m_status.score)->getCString());
+	m_targetScoreLabel->setVisible(false);
 	m_scoreLabel->setVisible(false);
+	m_scoreNumLabel->setCString(
+				CCString::createWithFormat("%d", m_status.score)->getCString());
+	m_scoreNumLabel->setVisible(false);
 	hideScoreHintLabel();
 	hideBonusHintLabel();
 }
@@ -619,12 +615,14 @@ void GameLayer::newStageInfoAnimation() {
 	CCFiniteTimeAction* action, *delay, *seq;
 
 	m_newStageInfoLabel->setCString(
-			CCString::createWithFormat("level %d", m_status.stage)->getCString());
+			CCString::createWithFormat("Stage %d", m_status.stage)->getCString());
 	m_newStageInfoLabel->setVisible(true);
 	m_newStageInfoLabel->setPosition(m_newStageInfoLabelInitPosition);
 	action = CCMoveTo::create(actionTime, m_newStageInfoLabelDispPosition);
 	m_newStageInfoLabel->runAction(action);
 
+	m_newStageTargetInfoLabel->setCString(
+			CCString::createWithFormat("Target %d", m_status.target)->getCString());
 	m_newStageTargetInfoLabel->setVisible(true);
 	m_newStageTargetInfoLabel->setPosition(m_newStageTargetInfoLabelInitPosition);
 	delay = CCDelayTime::create(delayTime);
@@ -632,14 +630,6 @@ void GameLayer::newStageInfoAnimation() {
 	seq = CCSequence::create(delay, action, NULL);
 	m_newStageTargetInfoLabel->runAction(seq);
 
-	m_newStageTargetScoreInfoLabel->setCString(
-			CCString::createWithFormat("%d", m_status.target)->getCString());
-	m_newStageTargetScoreInfoLabel->setVisible(true);
-	m_newStageTargetScoreInfoLabel->setPosition(m_newStageTargetScoreInfoLabelInitPosition);
-	delay = CCDelayTime::create(delayTime*2);
-	action = CCMoveTo::create(actionTime, m_newStageTargetScoreInfoLabelDispPosition);
-	seq = CCSequence::create(delay, action, NULL);
-	m_newStageTargetScoreInfoLabel->runAction(seq);
 	scheduleAnimation(NewStageStatus, delayTime*2 + actionTime + 1.0f);
 }
 
@@ -653,14 +643,9 @@ void GameLayer::newStageStatusAnimation() {
 	float actionTime = 0.5f;
 	float interv = 0.4f;
 	action = CCFadeIn::create(actionTime);
-	m_bestSprite->setVisible(true);
-	m_bestSprite->setOpacity(0);
-	m_bestSprite->runAction(CCSequence::create(delayAction, enableInputAction, action, NULL));
-	delayAction = CCDelayTime::create(delay);
-	action = CCFadeIn::create(actionTime);
-	m_bestbgSprite->setVisible(true);
-	m_bestbgSprite->setOpacity(0);
-	m_bestbgSprite->runAction(CCSequence::create(delayAction, action, NULL));
+	m_bestLabel->setVisible(true);
+	m_bestLabel->setOpacity(0);
+	m_bestLabel->runAction(CCSequence::create(delayAction, enableInputAction, action, NULL));
 	delayAction = CCDelayTime::create(delay);
 	action = CCFadeIn::create(actionTime);
 	m_bestScoreLabel->setVisible(true);
@@ -669,50 +654,35 @@ void GameLayer::newStageStatusAnimation() {
 
 	delayAction = CCDelayTime::create(delay+interv);
 	action = CCFadeIn::create(actionTime);
-	m_stageSprite->setVisible(true);
-	m_stageSprite->setOpacity(0);
-	m_stageSprite->runAction(CCSequence::create(delayAction, action, NULL));
-	delayAction = CCDelayTime::create(delay+interv);
-	action = CCFadeIn::create(actionTime);
-	m_stagebgSprite->setVisible(true);
-	m_stagebgSprite->setOpacity(0);
-	m_stagebgSprite->runAction(CCSequence::create(delayAction, action, NULL));
-	delayAction = CCDelayTime::create(delay+interv);
-	action = CCFadeIn::create(actionTime);
 	m_stageLabel->setVisible(true);
 	m_stageLabel->setOpacity(0);
 	m_stageLabel->runAction(CCSequence::create(delayAction, action, NULL));
 	delayAction = CCDelayTime::create(delay+interv);
 	action = CCFadeIn::create(actionTime);
-	m_targetSprite->setVisible(true);
-	m_targetSprite->setOpacity(0);
-	m_targetSprite->runAction(CCSequence::create(delayAction, action, NULL));
+	m_stageNumLabel->setVisible(true);
+	m_stageNumLabel->setOpacity(0);
+	m_stageNumLabel->runAction(CCSequence::create(delayAction, action, NULL));
 	delayAction = CCDelayTime::create(delay+interv);
 	action = CCFadeIn::create(actionTime);
-	m_targetbgSprite->setVisible(true);
-	m_targetbgSprite->setOpacity(0);
-	m_targetbgSprite->runAction(CCSequence::create(delayAction, action, NULL));
+	m_targetLabel->setVisible(true);
+	m_targetLabel->setOpacity(0);
+	m_targetLabel->runAction(CCSequence::create(delayAction, action, NULL));
 	delayAction = CCDelayTime::create(delay+interv);
 	action = CCFadeIn::create(actionTime);
-	m_targetScoreTopLabel->setVisible(true);
-	m_targetScoreTopLabel->setOpacity(0);
-	m_targetScoreTopLabel->runAction(CCSequence::create(delayAction, action, NULL));
+	m_targetScoreLabel->setVisible(true);
+	m_targetScoreLabel->setOpacity(0);
+	m_targetScoreLabel->runAction(CCSequence::create(delayAction, action, NULL));
 
-	delayAction = CCDelayTime::create(delay+interv*2);
-	action = CCFadeIn::create(actionTime);
-	m_scoreSprite->setVisible(true);
-	m_scoreSprite->setOpacity(0);
-	m_scoreSprite->runAction(CCSequence::create(delayAction, action, NULL));
-	delayAction = CCDelayTime::create(delay+interv*2);
-	action = CCFadeIn::create(actionTime);
-	m_scorebgSprite->setVisible(true);
-	m_scorebgSprite->setOpacity(0);
-	m_scorebgSprite->runAction(CCSequence::create(delayAction, action, NULL));
 	delayAction = CCDelayTime::create(delay+interv*2);
 	action = CCFadeIn::create(actionTime);
 	m_scoreLabel->setVisible(true);
 	m_scoreLabel->setOpacity(0);
 	m_scoreLabel->runAction(CCSequence::create(delayAction, action, NULL));
+	delayAction = CCDelayTime::create(delay+interv*2);
+	action = CCFadeIn::create(actionTime);
+	m_scoreNumLabel->setVisible(true);
+	m_scoreNumLabel->setOpacity(0);
+	m_scoreNumLabel->runAction(CCSequence::create(delayAction, action, NULL));
 }
 
 void GameLayer::goodGameAnimation(int count) {
@@ -723,7 +693,7 @@ void GameLayer::goodGameAnimation(int count) {
 	CCFiniteTimeAction* action1, *action2, *action3;
 	CCFiniteTimeAction* final;
 	action1 = CCFadeIn::create(0.01f);
-	action2 = CCScaleTo::create(0.2f, 1.0f);
+	action2 = CCScaleTo::create(0.2f, 2.0f);
 	delay = CCDelayTime::create(1.0f);
 	action3 = CCFadeOut::create(0.2f);
 	final = CCSequence::create(action1, action2, delay, action3, NULL);
@@ -742,12 +712,14 @@ void GameLayer::goodGameAnimation(int count) {
 		m_excellentSprite->setScale(0.1f);
 		m_excellentSprite->setVisible(true);
 		m_excellentSprite->runAction(final);
+		GameScene::instance()->playEffect("cool.ogg");
 	}
 	else {
 		m_fantasticSprite->setScale(0.1f);
 		m_fantasticSprite->setVisible(true);
 		m_fantasticSprite->runAction(final);
 		GameScene::instance()->fire();
+		GameScene::instance()->playEffect("super.ogg");
 	}
 }
 
@@ -757,7 +729,7 @@ void GameLayer::clearPuzzleAnimation() {
 	CCFiniteTimeAction *seq1, *seq2, *spawn;
 
 	action1 = CCFadeIn::create(0.01f);
-	action2 = CCScaleTo::create(0.2f, 1.0f);
+	action2 = CCScaleTo::create(0.2f, 2.0f);
 	delay = CCDelayTime::create(1.0f);
 	seq1 = CCSequence::create(action1, action2, delay, NULL);
 	action3 = CCScaleTo::create(0.5f, m_clearSpriteDisplayScale);
@@ -769,7 +741,7 @@ void GameLayer::clearPuzzleAnimation() {
 	m_clearSprite->setScale(0.1f);
 	m_clearSprite->setVisible(true);
 	m_clearSprite->runAction(seq2);
-	GameScene::instance()->playEffect("stageclear.mp3");
+	GameScene::instance()->playEffect("stageclear.ogg");
 }
 
 void GameLayer::addScoreAnimation(int score, CCPoint location, float delay, float flyTime) {
@@ -780,13 +752,14 @@ void GameLayer::addScoreAnimation(int score, CCPoint location, float delay, floa
 	CCFiniteTimeAction *callBack = CCCallFuncND::create(this,
 			callfuncND_selector(GameLayer::addScore), (void*)(score));
 	cocos2d::CCLabelBMFont* label = CCLabelBMFont::create(
-			CCString::createWithFormat("%d", score)->getCString(),"highscore.fnt");
+			CCString::createWithFormat("%d", score)->getCString(),"zh.fnt");
 	label->setPosition(location);
-	label->setAnchorPoint(CCPoint(0.5, 0));
+	label->setAnchorPoint(CCPoint(0, 0));
 	label->setVisible(false);
+	label->setScale(0.7);
 	this->addChild(label);
 	CCFiniteTimeAction* flyAction =
-			CCEaseOut::create(CCMoveTo::create(flyTime, m_scoreLabel->getPosition()), 0.5f);
+			CCEaseOut::create(CCMoveTo::create(flyTime, m_scoreNumLabel->getPosition()), 0.5f);
 	CCFiniteTimeAction* removeAction = CCRemoveSelf::create(true);
 	label->runAction(CCSequence::create(delayAction, showAction, standAction1,
 			flyAction, callBack, standAction2, removeAction, NULL));
@@ -847,7 +820,7 @@ void GameLayer::gameOverAnimation() {
 	action3 = CCCallFunc::create(this, callfunc_selector(GameLayer::returnToMainMenu));
 	seq1 = CCSequence::create(action1, action2, action3, NULL);
 	m_gameoverSprite->runAction(seq1);
-	GameScene::instance()->playEffect("gameover.mp3");
+	GameScene::instance()->playEffect("fail.ogg");
 }
 
 void GameLayer::winPuzzleAnimation() {
@@ -859,13 +832,13 @@ void GameLayer::winPuzzleAnimation() {
 	action3 = CCEaseOut::create(CCMoveTo::create(0.5, m_winFailSpriteInitPosition), 1.0);
 	seq1 = CCSequence::create(action1, action2, action3, NULL);
 	m_winSprite->runAction(seq1);
-	GameScene::instance()->playEffect("win.mp3");
+	GameScene::instance()->playEffect("win.ogg");
 	scheduleAnimation(NextStage, 3.5f);
 }
 
 void GameLayer::scoreHintAnimation(int count, int score) {
 	m_scoreHintLabel->setCString(
-			CCString::createWithFormat("%d blocks %d points", count, score)->getCString());
+			CCString::createWithFormat("Gain %d score", score)->getCString());
 	m_scoreHintLabel->setVisible(true);
 	CCFiniteTimeAction *action1, *action2, *action3, *action4, *seq;
 	action1 = CCScaleTo::create(0.06f, 1.4f);
@@ -913,5 +886,4 @@ void GameLayer::scaleBonusHintLabelToZero() {
 void GameLayer::hideNewStageInfoLables() {
 	m_newStageInfoLabel->setVisible(false);
 	m_newStageTargetInfoLabel->setVisible(false);
-	m_newStageTargetScoreInfoLabel->setVisible(false);
 }

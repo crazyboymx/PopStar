@@ -12,8 +12,8 @@
 
 using namespace cocos2d;
 
-#define STAR_WIDTH  48
-#define STAR_HEIGHT 48
+#define STAR_WIDTH  72
+#define STAR_HEIGHT 72
 
 class Star {
 public:
@@ -41,11 +41,11 @@ public:
 
 	StarType type() const { return m_type; }
 	CCPoint getPosition() const;
-	void setPosition(CCPoint p); // ÎÞ¶¯»­
+	void setPosition(CCPoint p); // ï¿½Þ¶ï¿½ï¿½ï¿½
 	void setPosition(float x, float y);
-	void moveTo(CCPoint p); //´ø¶¯»­
+	void moveTo(CCPoint p); //ï¿½ï¿½
 	void moveTo(float x, float y) { moveTo(CCPoint(x, y)); }
-	void move(float x, float y) { move(CCPoint(x, y)); } //´ø¶¯»­
+	void move(float x, float y) { move(CCPoint(x, y)); } //ï¿½ï¿½
 	void move(CCPoint p) { moveTo(m_sprite->getPosition()+p); }
 
 	void runAction(CCAction* action);

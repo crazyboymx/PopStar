@@ -115,12 +115,12 @@
 		<link>
 			<name>cocos2dx</name>
 			<type>2</type>
-			<locationURI>COCOS2DX/cocos2dx</locationURI>
+			<location>D:/nbgate/projects/cocos2d-x/cocos2dx</location>
 		</link>
 		<link>
 			<name>extensions</name>
 			<type>2</type>
-			<locationURI>COCOS2DX/extensions</locationURI>
+			<location>D:/nbgate/projects/cocos2d-x/extensions</location>
 		</link>
 		<link>
 			<name>scripting</name>

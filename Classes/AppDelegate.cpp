@@ -18,35 +18,33 @@ bool AppDelegate::applicationDidFinishLaunching() {
     pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
 
     CCSize screenSize = CCEGLView::sharedOpenGLView()->getFrameSize();
-    CCSize designSize = CCSizeMake(480, 800);
+    CCSize designSize = CCSizeMake(720, 1200);
     std::vector<std::string> searchPaths;
 
     searchPaths.push_back("particle");
     searchPaths.push_back("sounds");
     searchPaths.push_back("fonts");
-    CCLog("screenSize(%0.2f, %0.2f)", screenSize.width, screenSize.height);
+    //CCLog("screenSize(%0.2f, %0.2f)", screenSize.width, screenSize.height);
     CCFileUtils::sharedFileUtils()->setSearchPaths(searchPaths);
     CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionShowAll);
 
     CCSpriteFrameCache* cacher = CCSpriteFrameCache::sharedSpriteFrameCache();
-    cacher->addSpriteFramesWithFile("batch.plist");
+    cacher->addSpriteFramesWithFile("batch_en_big.plist");
     CCTextureCache* texCacher = CCTextureCache::sharedTextureCache();
     texCacher->addImage("Star_1.png");
     texCacher->addImage("Star_2.png");
     texCacher->addImage("Star_3.png");
     texCacher->addImage("Star_4.png");
     texCacher->addImage("Star_5.png");
-    texCacher->addImage("fire.png");
-    texCacher->addImage("learning.png");
-    cacher->addSpriteFrame(CCSpriteFrame::create("learning.png", CCRect(0, 0, 258, 59)), "learning.png");
 
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("broken.mp3");
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("click.mp3");
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("fire.mp3");
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("gameover.mp3");
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("select.mp3");
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("stageclear.mp3");
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("win.mp3");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("clickbutton.ogg");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("cool.ogg");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("explode.ogg");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("fail.ogg");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("selectstar.ogg");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("stageclear.ogg");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("super.ogg");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("win.ogg");
 
     Config::instance()->load();
 

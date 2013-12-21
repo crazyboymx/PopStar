@@ -48,7 +48,7 @@ HitResult StarPuzzle::hitTest(const CCPoint& point) {
 	int row = std::max(0, (int)((point.y - m_bottom) / STAR_HEIGHT));
 	int col = std::max(0, (int)((point.x - m_left) / STAR_WIDTH));
 	int index = row * m_col + col;
-	CCLog("point %0.2f, %0.2f, row %d, col %d", point.x, point.y, row, col);
+	//CCLog("point %0.2f, %0.2f, row %d, col %d", point.x, point.y, row, col);
 	HitResult result;
 	if (index < m_size && m_stars[index] != 0) {
 		if (m_selectedStarIndex.find(index) != m_selectedStarIndex.end()) {
@@ -159,7 +159,7 @@ void StarPuzzle::popStar() {
     for (; iter != m_selectedStarIndex.end(); iter++) {
     	explodeStar(*iter);
     }
-    GameScene::instance()->playEffect("broken.mp3");
+    GameScene::instance()->playEffect("explode.ogg");
     m_selectedStarIndex.clear();
 }
 
@@ -168,7 +168,7 @@ void StarPuzzle::removeAndPopTailStar() {
 		if (m_stars[i] != NULL) {
 			m_matrix[i] = UNDEFINED;
 			explodeStar(i);
-			GameScene::instance()->playEffect("broken.mp3");
+			GameScene::instance()->playEffect("explode.ogg");
 			return;
 		}
 	}
@@ -181,7 +181,7 @@ void StarPuzzle::removeAndPopAllRemainStars() {
 			explodeStar(i);
 		}
 	}
-	GameScene::instance()->playEffect("broken.mp3");
+	GameScene::instance()->playEffect("explode.ogg");
 }
 
 void StarPuzzle::applyChanges() {
@@ -233,6 +233,7 @@ int StarPuzzle::evaluateMaxScore() {
 
 void StarPuzzle::initPuzzle(PuzzleLevel level) {
 	for (int i = 0; i < 10; i++) {
+		//CCLog("generatePuzzle times %d", i+1);
 		clearPuzzle();
 		generatePuzzle(level);
 		if (evaluateMaxScore() >= 2000)
@@ -333,7 +334,16 @@ void StarPuzzle::generatePuzzle(PuzzleLevel level) {
 	}
 }
 
+// 15%几率和上一个相同
 void StarPuzzle::generateEasyPuzzle() {
+	int var = 0;
+	for (int i = 0; i < m_size; i++) {
+		var = rand() % 100;
+		if (var < 15 && i > 0)
+			m_matrix[i] = m_matrix[i-1];
+		else
+			m_matrix[i] = var % 5 + 1;
+	}
 }
 
 void StarPuzzle::generateNormalPuzzle() {
@@ -379,12 +389,12 @@ void StarPuzzle::dumpStatus() {
 		int len = sprintf(buff, "%d, ", *iter);
 		s.append(buff, len);
 	}
-	CCLog("selected: %s", s.c_str());
+	//CCLog("selected: %s", s.c_str());
 	s = "";
 	std::map<int, int>::iterator it = m_changes.begin();
 	for (; it != m_changes.end(); it++) {
         int len = sprintf(buff, "%d->%d, ", it->first, it->second);
         s.append(buff, len);
     }
-	CCLog("changes: %s", s.c_str());
+	//CCLog("changes: %s", s.c_str());
 }

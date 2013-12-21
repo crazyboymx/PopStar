@@ -72,7 +72,7 @@ public class PopStar extends Cocos2dxActivity implements AdsMogoListener {
     	    FrameLayout.LayoutParams.FILL_PARENT,
     	    FrameLayout.LayoutParams.WRAP_CONTENT);
 
-    	// ÉèÖÃ¹ã¸æ³öÏÖµÄÎ»ÖÃ(Ðü¸¡ÓÚ¶¥²¿).
+    	// ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½Öµï¿½Î»ï¿½ï¿½(ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½).
     	params.bottomMargin = 0;
     	adsMogoLayout.setAdsMogoListener(this);
     	adsMogoLayout.setFocusable(false);
@@ -148,8 +148,8 @@ public class PopStar extends Cocos2dxActivity implements AdsMogoListener {
     
     @Override
 	protected void onDestroy() {
-		// Çå³ý adsMogoLayout ÊµÀý Ëù²úÉúÓÃÓÚ¶àÏß³Ì»º³å»úÖÆµÄÏß³Ì³Ø 
-		// ´Ë·½·¨Çë²»ÒªÇáÒ×µ÷ÓÃ£¬Èç¹ûµ÷ÓÃÊ±¼ä²»µ±£¬»áÔì³ÉÎÞ·¨Í³¼Æ¼ÆÊý 
+		// ï¿½ï¿½ï¿½ adsMogoLayout Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ß³Ì»ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ß³Ì³ï¿½ 
+		// ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ë²»Òªï¿½ï¿½ï¿½×µï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä²»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½Í³ï¿½Æ¼ï¿½ï¿½ï¿½ 
 		if (adsMogoLayout != null) {
 			adsMogoLayout.clearThread();
 		}
