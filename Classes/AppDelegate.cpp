@@ -29,7 +29,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionShowAll);
 
     CCSpriteFrameCache* cacher = CCSpriteFrameCache::sharedSpriteFrameCache();
-    cacher->addSpriteFramesWithFile("batch_en_big.plist");
+    cacher->addSpriteFramesWithFile("batch_cn_big.plist");
     CCTextureCache* texCacher = CCTextureCache::sharedTextureCache();
     texCacher->addImage("Star_1.png");
     texCacher->addImage("Star_2.png");

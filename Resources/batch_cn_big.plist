@@ -374,13 +374,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>batch_en_big.png</string>
+            <string>batch_cn_big.png</string>
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:657c45a885a219d2fba802aec8117918:e2a93ef6da193b31013a725c3ea51618:1101e82798c401fecf1de546507eb3de$</string>
+            <string>$TexturePacker:SmartUpdate:b921e3501d7d80d32ad60dbd7754dfa2:aa3603e38b1fc3dae9924f0e69946593:110fadd8ff662bf260a0dcf6c46f23ff$</string>
             <key>textureFileName</key>
-            <string>batch_en_big.png</string>
+            <string>batch_cn_big.png</string>
         </dict>
     </dict>
 </plist>

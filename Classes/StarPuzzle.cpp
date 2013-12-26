@@ -353,6 +353,14 @@ void StarPuzzle::generateNormalPuzzle() {
 }
 
 void StarPuzzle::generateHardPuzzle() {
+	int var = 0;
+	for (int i = 0; i < m_size; i++) {
+		var = rand() % 100;
+		if (var < 10 && i > 0)
+			m_matrix[i] = m_matrix[i-1];
+		else
+			m_matrix[i] = var % 5 + 1;
+	}
 }
 
 void StarPuzzle::generateExpertPuzzle() {

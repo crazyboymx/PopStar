@@ -162,7 +162,7 @@ bool GameLayer::init() {
         m_status.highScore = Config::instance()->highScore();
 
         // best
-        m_bestLabel = CCLabelBMFont::create("High Score", "zh.fnt");
+        m_bestLabel = CCLabelBMFont::create("最高分", "zh.fnt");
         m_bestLabel->setPosition(CCPoint(origin.x+340, origin.y + 1000));
         m_bestLabel->setAnchorPoint(CCPoint(0.5, 0));
 		this->addChild(m_bestLabel);
@@ -173,7 +173,7 @@ bool GameLayer::init() {
 		m_bestScoreLabel->setAnchorPoint(CCPoint(0.5, 0));
 		this->addChild(m_bestScoreLabel);
 		// stage 90*28
-		m_stageLabel = CCLabelBMFont::create("Stage", "zh.fnt");
+		m_stageLabel = CCLabelBMFont::create("关卡", "zh.fnt");
 		m_stageLabel->setPosition(CCPoint(origin.x + 0, origin.y + 870));
 		m_stageLabel->setAnchorPoint(CCPoint(0, 0));
 		m_stageLabel->setScale(0.7);
@@ -186,7 +186,7 @@ bool GameLayer::init() {
 		m_stageNumLabel->setScale(0.7);
 		this->addChild(m_stageNumLabel);
 		// target 110*28
-		m_targetLabel = CCLabelBMFont::create("Target", "zh.fnt");
+		m_targetLabel = CCLabelBMFont::create("目标", "zh.fnt");
 		m_targetLabel->setPosition(CCPoint(origin.x + 0, origin.y + 820));
 		m_targetLabel->setAnchorPoint(CCPoint(0, 0));
 		m_targetLabel->setScale(0.7);
@@ -199,7 +199,7 @@ bool GameLayer::init() {
 		m_targetScoreLabel->setScale(0.7);
 		this->addChild(m_targetScoreLabel);
 		// score 95*28
-		m_scoreLabel = CCLabelBMFont::create("Score", "zh.fnt");
+		m_scoreLabel = CCLabelBMFont::create("分数", "zh.fnt");
 		m_scoreLabel->setPosition(CCPoint(origin.x, origin.y + 770));
 		m_scoreLabel->setAnchorPoint(CCPoint(0, 0));
 		m_scoreLabel->setScale(0.7);
@@ -214,14 +214,14 @@ bool GameLayer::init() {
 
 		// scoreHintLable x*28
 		m_scoreHintLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("Gain %d score", 0)->getCString(),"zh.fnt");
+				CCString::createWithFormat("将获得%d分", 0)->getCString(),"zh.fnt");
 		m_scoreHintLabel->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + 750));
 		m_scoreHintLabel->setAnchorPoint(CCPoint(0.5, 0));
 		m_scoreHintLabel->setVisible(false);
 		this->addChild(m_scoreHintLabel);
 		// bonusHintLabel x*28
 		m_bonusHintLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("Bonus %d", 0)->getCString(),"zh.fnt");
+				CCString::createWithFormat("奖励%d分", 0)->getCString(),"zh.fnt");
 		m_bonusHintLabel->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_bonusHintLabel->setAnchorPoint(CCPoint(0.5, 0));
 		m_bonusHintLabel->setVisible(false);
@@ -229,7 +229,7 @@ bool GameLayer::init() {
 
 		// new stage info labels
 		m_newStageInfoLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("Stage %d", 0)->getCString(),"zh.fnt");
+				CCString::createWithFormat("关卡 %d", 0)->getCString(),"zh.fnt");
 		m_newStageInfoLabelInitPosition = CCPoint(origin.x + visibleSize.width+120, origin.y + 680);
 		m_newStageInfoLabelDispPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + 680);
 		m_newStageInfoLabel->setPosition(m_newStageInfoLabelInitPosition);
@@ -237,7 +237,7 @@ bool GameLayer::init() {
 		m_newStageInfoLabel->setVisible(false);
 		this->addChild(m_newStageInfoLabel, 999);
 		m_newStageTargetInfoLabel = CCLabelBMFont::create(
-				CCString::createWithFormat("Target %d", m_status.target)->getCString(),"zh.fnt");
+				CCString::createWithFormat("目标 %d", m_status.target)->getCString(),"zh.fnt");
 		m_newStageTargetInfoLabelInitPosition = CCPoint(origin.x + visibleSize.width+120, origin.y + 600);
 		m_newStageTargetInfoLabelDispPosition = CCPoint(origin.x + visibleSize.width/2, origin.y + 600);
 		m_newStageTargetInfoLabel->setPosition(m_newStageTargetInfoLabelInitPosition);
@@ -246,25 +246,25 @@ bool GameLayer::init() {
 		this->addChild(m_newStageTargetInfoLabel, 999);
 
 		// goodSprite 186*120
-		m_goodSprite = CCLabelBMFont::create("Nice！", "zh.fnt");
+		m_goodSprite = CCLabelBMFont::create("还不错！", "zh.fnt");
 		m_goodSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_goodSprite->setAnchorPoint(CCPoint(0.5, 0.5));
 		this->addChild(m_goodSprite, 999);
 		m_goodSprite->setVisible(false);
 		// coolSprite 186*120
-		m_coolSprite = CCLabelBMFont::create("Good！", "zh.fnt");
+		m_coolSprite = CCLabelBMFont::create("非常好！", "zh.fnt");
 		m_coolSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_coolSprite->setAnchorPoint(CCPoint(0.5, 0.5));
 		this->addChild(m_coolSprite, 999);
 		m_coolSprite->setVisible(false);
 		// excellentSprite 310*120
-		m_excellentSprite = CCLabelBMFont::create("Cool！", "zh.fnt");
+		m_excellentSprite = CCLabelBMFont::create("专家！", "zh.fnt");
 		m_excellentSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_excellentSprite->setAnchorPoint(CCPoint(0.5, 0.5));
 		this->addChild(m_excellentSprite, 999);
 		m_excellentSprite->setVisible(false);
 		// fantasticSprite 294, 104
-		m_fantasticSprite = CCLabelBMFont::create("Super！", "zh.fnt");
+		m_fantasticSprite = CCLabelBMFont::create("外星人！", "zh.fnt");
 		m_fantasticSprite->setPosition(CCPoint(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
 		m_fantasticSprite->setAnchorPoint(CCPoint(0.5, 0.5));
 		this->addChild(m_fantasticSprite, 999);
@@ -347,7 +347,7 @@ void GameLayer::createPuzzle(int row, int col) {
 	m_puzzle->setBottom(GameScene::instance()->visibleOrigin().y);
 	m_puzzle->setRight(m_rightCenter.x);
 	if (m_mode == Config::Challenge)
-		m_puzzle->initPuzzle(StarPuzzle::EASY);
+		m_puzzle->initPuzzle(StarPuzzle::HARD);
 	else if (m_mode == Config::Learning)
 		m_puzzle->initPuzzle(StarPuzzle::EASY);
 	else if (m_mode == Config::Normal)
@@ -405,7 +405,7 @@ void GameLayer::updateHighScore(int score) {
 
 void GameLayer::updateBonusHintLabel(CCNode* sender, int score) {
 	m_bonusHintLabel->setCString(
-			CCString::createWithFormat("Bonus %d", score)->getCString());
+			CCString::createWithFormat("奖励%d分", score)->getCString());
 }
 
 bool GameLayer::isStageClear(int score) {
@@ -417,7 +417,7 @@ void GameLayer::newStage() {
 	if (m_mode == Config::Normal)
 		m_status.target = target(m_status.stage);
 	else if (m_mode == Config::Challenge) {
-		int strength = std::min(100, 80 + m_status.stage);
+		int strength = std::min(100, 90 + m_status.stage);
 		m_status.target = m_status.lastTarget + m_puzzle->evaluateMaxScore() * strength/100;
 	}
 	else if (m_mode == Config::Learning) {
@@ -615,14 +615,14 @@ void GameLayer::newStageInfoAnimation() {
 	CCFiniteTimeAction* action, *delay, *seq;
 
 	m_newStageInfoLabel->setCString(
-			CCString::createWithFormat("Stage %d", m_status.stage)->getCString());
+			CCString::createWithFormat("关卡 %d", m_status.stage)->getCString());
 	m_newStageInfoLabel->setVisible(true);
 	m_newStageInfoLabel->setPosition(m_newStageInfoLabelInitPosition);
 	action = CCMoveTo::create(actionTime, m_newStageInfoLabelDispPosition);
 	m_newStageInfoLabel->runAction(action);
 
 	m_newStageTargetInfoLabel->setCString(
-			CCString::createWithFormat("Target %d", m_status.target)->getCString());
+			CCString::createWithFormat("目标 %d", m_status.target)->getCString());
 	m_newStageTargetInfoLabel->setVisible(true);
 	m_newStageTargetInfoLabel->setPosition(m_newStageTargetInfoLabelInitPosition);
 	delay = CCDelayTime::create(delayTime);
@@ -838,7 +838,7 @@ void GameLayer::winPuzzleAnimation() {
 
 void GameLayer::scoreHintAnimation(int count, int score) {
 	m_scoreHintLabel->setCString(
-			CCString::createWithFormat("Gain %d score", score)->getCString());
+			CCString::createWithFormat("将获得%d分", score)->getCString());
 	m_scoreHintLabel->setVisible(true);
 	CCFiniteTimeAction *action1, *action2, *action3, *action4, *seq;
 	action1 = CCScaleTo::create(0.06f, 1.4f);

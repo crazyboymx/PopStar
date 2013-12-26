@@ -29,7 +29,7 @@ bool MainMenuLayer::init() {
 		CCSpriteFrameCache* cacher = CCSpriteFrameCache::sharedSpriteFrameCache();
 
 		// best
-		m_bestLabel = CCLabelBMFont::create("High Score", "zh.fnt");
+		m_bestLabel = CCLabelBMFont::create("最高分", "zh.fnt");
 		m_bestLabel->setPosition(CCPoint(origin.x+340, origin.y + 1000));
 		m_bestLabel->setAnchorPoint(CCPoint(0.5, 0));
 		this->addChild(m_bestLabel);
@@ -52,13 +52,13 @@ bool MainMenuLayer::init() {
 			m_sound->setDisplayFrame(m_muteFrame);
 		this->addChild(m_sound);
 		// title1
-		m_title1 = CCLabelBMFont::create("PopStar", "zh.fnt");
+		m_title1 = CCLabelBMFont::create("消灭星星", "zh.fnt");
 		m_title1->setPosition(CCPoint(origin.x + 40, origin.y + 740));
 		m_title1->setAnchorPoint(CCPoint(0.0f, 0.0f));
 		m_title1->setScale(1.5625);
 		this->addChild(m_title1);
 		// title2
-		m_title2 = CCLabelBMFont::create("Challenge", "zh.fnt");
+		m_title2 = CCLabelBMFont::create("高分挑战", "zh.fnt");
 		m_title2->setPosition(CCPoint(origin.x + 280, origin.y + 630));
 		m_title2->setAnchorPoint(CCPoint(0.0f, 0.0f));
 		m_title2->setScale(1.5625);
