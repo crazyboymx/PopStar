@@ -31,6 +31,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCSpriteFrameCache* cacher = CCSpriteFrameCache::sharedSpriteFrameCache();
     cacher->addSpriteFramesWithFile("batch_cn_big.plist");
     CCTextureCache* texCacher = CCTextureCache::sharedTextureCache();
+    texCacher->addImage("bg.png");
     texCacher->addImage("Star_1.png");
     texCacher->addImage("Star_2.png");
     texCacher->addImage("Star_3.png");

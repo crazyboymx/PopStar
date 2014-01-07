@@ -19,24 +19,24 @@ Star::Star(StarType type, float scale)
 	selected.initWithFormat("star%db.png", type);*/
 	const char *normal, *selected;
 	if (type == Yellow) {
-		normal = "avata_duck_close.png";
-		selected = "avata_duck_open.png";
+		normal = "star1.png";
+		selected = "star1_select.png";
 	}
 	else if (type == Green) {
-		normal = "avatar_rabbit_close.png";
-		selected = "avatar_rabbit_open.png";
+		normal = "star2.png";
+		selected = "star2_select.png";
 	}
 	else if (type == Red) {
-		normal = "avata_fox_close.png";
-		selected = "avata_fox_open.png";
+		normal = "star3.png";
+		selected = "star3_select.png";
 	}
 	else if (type == Blue) {
-		normal = "avata_mouse_close.png";
-		selected = "avata_mouse_open.png";
+		normal = "star4.png";
+		selected = "star4_select.png";
 	}
 	else if (type == Puple) {
-		normal = "avatar_tiger_close.png";
-		selected = "avatar_tiger_open.png";
+		normal = "star5.png";
+		selected = "star5_select.png";
 	}
 	m_sprite = CCSprite::createWithSpriteFrameName(normal);
 	m_sprite->retain();

@@ -23,7 +23,8 @@ bool BackGroundLayer::init() {
 
 		CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 		CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-		CCSprite* bg = CCSprite::createWithSpriteFrameName("bg.png");
+		CCSprite* bg = CCSprite::createWithTexture(
+				CCTextureCache::sharedTextureCache()->textureForKey("bg.png"));
 		bg->setPosition(CCPoint(origin.x + 0, origin.y ));
 		bg->setAnchorPoint(CCPoint(0, 0));
 		this->addChild(bg);
